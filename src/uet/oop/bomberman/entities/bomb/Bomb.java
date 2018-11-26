@@ -95,6 +95,7 @@ public class Bomb extends AnimatedEntitiy {
             _flames[i] = new Flame((int) _x, (int) _y, i, Game.getBombRadius(), _board);
         }
     }
+
 	public FlameSegment flameAt(int x, int y) {
 		if(!_exploded) return null;
 		

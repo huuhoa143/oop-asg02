@@ -25,6 +25,7 @@ public class Bomber extends Character {
 
 
     public static List<Item> _powerups = new ArrayList<Item>();
+
     /**
      * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
      * cứ mỗi lần đặt 1 Bomb mới, giá trị này sẽ được reset về 0 và giảm dần trong mỗi lần update()
