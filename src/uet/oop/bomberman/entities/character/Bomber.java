@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.character;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.SoundPlayer;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Bomb;
@@ -14,6 +15,7 @@ import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.Coordinates;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +24,13 @@ public class Bomber extends Character {
 
     private List<Bomb> _bombs;
     protected Keyboard _input;
+    public static SoundPlayer placeBoomSound = new SoundPlayer(new File("res/sound/BOM_SET.wav"));
+    public static SoundPlayer eatItem = new SoundPlayer(new File("res/sound/ITEM_GET.wav"));
+    public static SoundPlayer moveSound = new SoundPlayer(new File("res/sound/PLAYER_WALK.wav"));
+    public static SoundPlayer bomberkillSound = new SoundPlayer(new File("res/sound/Bomberkill.wav"));
+
+
+
 
 
     public static List<Item> _powerups = new ArrayList<Item>();
@@ -104,6 +113,7 @@ public class Bomber extends Character {
         // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
         Bomb b = new Bomb(x, y, _board);
         _board.addBomb(b);
+        placeBoomSound.play();
     }
 
     private void clearBombs() {
@@ -127,6 +137,7 @@ public class Bomber extends Character {
 	 */
     @Override
     public void kill() {
+        bomberkillSound.play();
         if(!_alive) return;
 
         _alive = false;
@@ -191,6 +202,7 @@ public class Bomber extends Character {
 
     @Override
     public void move(double xa, double ya) {
+        //moveSound.play();
         if(xa > 0) _direction = 1;
         if(xa < 0) _direction = 3;
         if(ya > 0) _direction = 2;
@@ -230,6 +242,8 @@ public class Bomber extends Character {
         _powerups.add(p);
 
         p.setValues();
+        eatItem.play();
+
     }
 
     public void clearUsedPowerups() {

@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.SoundPlayer;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
@@ -10,10 +11,13 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
+import java.io.File;
+
 public class Bomb extends AnimatedEntitiy {
 
 	protected double _timeToExplode = 120; //2 seconds
 	public int _timeAfter = 20;
+	public static SoundPlayer boomOverSound = new SoundPlayer(new File("res/sound/BomeNo.wav"));
 	
 	protected Board _board;
 	protected boolean _allowedToPassThru = true;
@@ -81,6 +85,7 @@ public class Bomb extends AnimatedEntitiy {
         }
     }
     protected void explosion () {
+		boomOverSound.play();
         _allowedToPassThru = true;
         _exploded = true;
 

@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.character.enemy;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.SoundPlayer;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Flame;
@@ -13,6 +14,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
 import java.awt.*;
+import java.io.File;
 
 public abstract class Enemy extends Character {
 
@@ -27,6 +29,7 @@ public abstract class Enemy extends Character {
 	
 	protected int _finalAnimation = 30;
 	protected Sprite _deadSprite;
+	public static SoundPlayer enemykillSound = new SoundPlayer(new File("res/sound/killenemy.wav"));
 	
 	public Enemy(int x, int y, Board board, Sprite dead, double speed, int points) {
 		super(x, y, board);
@@ -149,6 +152,7 @@ public abstract class Enemy extends Character {
 	
 	@Override
 	public void kill() {
+		enemykillSound.play();
 		if(_alive == false) return;
 		_alive = false;
 		

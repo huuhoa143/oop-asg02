@@ -144,6 +144,7 @@ public class Game extends Canvas {
 				if(_screenDelay <= 0) {
 					_board.setShow(-1);
 					_paused = false;
+					_board.backgroundSound.play();
 				}
 					
 				renderScreen();

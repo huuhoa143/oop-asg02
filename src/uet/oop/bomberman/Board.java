@@ -15,6 +15,7 @@ import uet.oop.bomberman.level.FileLevelLoader;
 import uet.oop.bomberman.level.LevelLoader;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +31,10 @@ public class Board implements IRender {
 	
 	public Entity[] _entities;
 	public List<Character> _characters = new ArrayList<>();
+	public static SoundPlayer levelUpSound = new SoundPlayer(new File("res/sound/LevelUp.wav"));
+	public static SoundPlayer backgroundSound = new SoundPlayer(new File("res/sound/BackGround.wav"));
+	public static SoundPlayer gameOverSound = new SoundPlayer(new File("res/sound/GameOver.wav"));
+	public static SoundPlayer victorySound = new SoundPlayer(new File("res/sound/Winner.wav"));
 	protected List<Bomb> _bombs = new ArrayList<>();
 	private List<Message> _messages = new ArrayList<>();
 	
@@ -38,6 +43,8 @@ public class Board implements IRender {
 	private int _time = Game.TIME;
 	private int _points = Game.POINTS;
 	private int _lives = Game.LIVES;
+
+	private boolean victory = false;
 	
 	public Board(Game game, Keyboard input, Screen screen) {
 		_game = game;
@@ -95,6 +102,7 @@ public class Board implements IRender {
 	|--------------------------------------------------------------------------
 	 */
 	public void newGame() {
+		victory = false;
 		resetProperties();
 		loadLevel(1);
 	}
@@ -128,10 +136,20 @@ public class Board implements IRender {
 		_messages.clear();
 		
 		try {
-			_levelLoader = new FileLevelLoader(this, level);
-			_entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
+			if (level <= 2) {
+				_levelLoader = new FileLevelLoader(this, level);
+				_entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
+			}else {
+				victory = true;
+				endGame();
+				return;
+			}
 			
 			_levelLoader.createEntities();
+			backgroundSound.stop();
+			gameOverSound.stop();
+			victorySound.stop();
+			levelUpSound.play();
 		} catch (LoadLevelException e) {
 			endGame();
 		}
@@ -168,6 +186,13 @@ public class Board implements IRender {
 		_screenToShow = 1;
 		_game.resetScreenDelay();
 		_game.pause();
+		backgroundSound.stop();
+		if(victory) {
+			victorySound.play();
+		}
+		else {
+			gameOverSound.play();
+		}
 	}
 	
 	public boolean detectNoEnemies() {
