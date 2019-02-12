@@ -199,3 +199,4 @@ Hiện tại game chưa thiết kế để đưa âm thanh vào. Bạn có thể
 Ta có thể phát triển phiên bản multiplayer cho game để có thể chơi qua mạng với nhau.
 
 Bạn có thể tùy ý cài đặt phần này, lưu ý phải đảm bảo các máy đồng bộ realtime với nhau.
+# oop-asg02
